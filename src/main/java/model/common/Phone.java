@@ -16,7 +16,7 @@ public class Phone {
             throw new Exception("Invalid phone format. Expected 11 digits.");
     }
 
-    public String getPhone() {
+    public String getValue() {
         return phone;
     }
 }
