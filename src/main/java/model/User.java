@@ -8,17 +8,28 @@ import model.common.Phone;
 import java.util.Date;
 
 public class User {
-    private String name;
-    private String lastName;
-    private Email email;
-    private Date birthDate;
-    private Cpf cpf;
-    private Address address;
-    private Phone phone;
+    private final String name;
+    private final String lastName;
+    private final Email email;
+    private final Date birthDate;
+    private final Cpf cpf;
+    private final Phone phone;
+    private final Address address;
 
-    public User(String name, String lastName, Date birthDate, Cpf cpf, Address address, Phone phone) {
-        this.name = name;
-        this.lastName = lastName;
+    public User(String name, String lastName, Email email, Date birthDate, Cpf cpf, Phone phone, Address address) throws Exception {
+
+        if (name == null || name.isBlank()) throw new Exception("Name cannot be null or blank.");
+        if (lastName == null || lastName.isBlank()) throw new Exception("Lastname cannot be null or blank.");
+        if (email == null) throw new Exception("Email cannot be null.");
+        if (birthDate == null) throw new Exception("Birth Date cannot be null.");
+        if (birthDate.after(new Date())) throw new Exception("Birth date cannot be in the future.");
+        if (cpf == null) throw new Exception("CPF cannot be null.");
+        if (phone == null) throw new Exception("Phone cannot be null.");
+        if (address == null) throw new Exception("Address cannot be null.");
+
+        this.name = name.trim();
+        this.lastName = lastName.trim();
+        this.email = email;
         this.birthDate = birthDate;
         this.cpf = cpf;
         this.address = address;
@@ -31,6 +42,10 @@ public class User {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public Email getEmail() {
+        return email;
     }
 
     public Date getBirthDate() {
@@ -49,27 +64,4 @@ public class User {
         return phone;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public void setCpf(Cpf cpf) {
-        this.cpf = cpf;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public void setPhone(Phone phone) {
-        this.phone = phone;
-    }
 }
