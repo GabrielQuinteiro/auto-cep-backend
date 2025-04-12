@@ -1,35 +1,22 @@
-package model.common;
+package com.example.AutoCEP.model.common;
 
-import java.util.regex.Pattern;
+import com.example.AutoCEP.exepction.cpf.CpfErrorCode;
+import com.example.AutoCEP.exepction.cpf.InvalidCpfExecption;
+import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.Pattern;
 
-public class Cpf {
-    private static final Pattern FORMATTED_OR_RAW_CPF = Pattern.compile("^(\\d{3}\\.?){3}-?\\d{2}$");
-    private final String cpf;
+@Embeddable
+public class CpfVO {
 
-    public Cpf(String cpf) throws Exception {
+    @Pattern(regexp = "^(\\d{3}\\.?){3}-?\\d{2}$")
+    private String cpf;
+
+    public CpfVO() {
+    }
+
+    public CpfVO(String cpf) throws Exception {
         validate(cpf);
         this.cpf = normalize(cpf);
-    }
-
-
-    private void validate(String cpf) throws Exception {
-        if (FORMATTED_OR_RAW_CPF.matcher(cpf).matches() == false) {
-            throw new Exception("Invalid cpf format.");
-        }
-
-        String normalized = normalize(cpf);
-
-        if (normalized.matches("(\\d)\\1{10}")) {
-            throw new Exception("Invalid CPF: all digits are equal.");
-        }
-
-        if (!isValidDigits(normalized)) {
-            throw new Exception("Invalid CPF: check digits do not match.");
-        }
-    }
-
-    private String normalize(String cpf) {
-        return cpf.replaceAll("[^\\d]", "");
     }
 
     private boolean isValidDigits(String cpf) {
@@ -53,6 +40,25 @@ public class Cpf {
             return false;
         }
     }
+
+    private String normalize(String cpf) {
+        return cpf.replaceAll("[^\\d]", "");
+    }
+
+    private void validate(String cpf) throws InvalidCpfExecption {
+
+        String normalized = normalize(cpf);
+
+        if (normalized.matches("(\\d)\\1{10}")) {
+            throw new InvalidCpfExecption(CpfErrorCode.ALL_DIGITS_EQUALS);
+        }
+
+        if (!isValidDigits(normalized)) {
+            throw new InvalidCpfExecption(CpfErrorCode.INVALID_VERF_DIGITS);
+        }
+    }
+
+
 
     public String getValue() {
         return cpf;
