@@ -1,4 +1,4 @@
-package com.example.AutoCEP.model.common;
+package com.example.AutoCEP.entity.common.enums;
 
 public enum DDD {
     SP_11("11"),
@@ -97,7 +97,6 @@ public enum DDD {
         }
         return false;
     }
-
 
     public String getDdd() {
         return ddd;

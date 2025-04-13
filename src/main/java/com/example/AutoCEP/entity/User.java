@@ -1,10 +1,10 @@
-package com.example.AutoCEP.model;
+package com.example.AutoCEP.entity;
 
-import com.example.AutoCEP.model.common.AddressVO;
-import com.example.AutoCEP.model.common.CpfVO;
-import com.example.AutoCEP.model.common.EmailVO;
-import com.example.AutoCEP.model.common.PhoneVO;
+import com.example.AutoCEP.entity.common.AddressVO;
+import com.example.AutoCEP.entity.common.CpfVO;
+import com.example.AutoCEP.entity.common.PhoneVO;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.util.Date;
 import java.util.UUID;
@@ -15,11 +15,26 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @NotNull
+    @NotBlank
+    @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters.")
+    @Column(length = 50, nullable = false)
     private String name;
+
+    @NotNull
+    @NotBlank
+    @Size(min = 2, max = 100, message = "Lastname must be between 2 and 100 characters.")
+    @Column(length = 100, nullable = false)
     private String lastName;
 
-    @Embedded
-    private EmailVO email;
+    @NotNull
+    @NotBlank
+    @Email
+    private String email;
+
+    @NotNull
+    @PastOrPresent
     private Date birthDate;
 
     @Embedded
@@ -34,7 +49,7 @@ public class User {
     protected User() {
     }
 
-    public User(UUID id, String name, String lastName, EmailVO email, Date birthDate, CpfVO cpf, PhoneVO phone, AddressVO address) {
+    public User(UUID id, String name, String lastName, String email, Date birthDate, CpfVO cpf, PhoneVO phone, AddressVO address) {
         this.id = id;
         this.name = name.trim();
         this.lastName = lastName.trim();
@@ -57,7 +72,7 @@ public class User {
         return lastName;
     }
 
-    public EmailVO getEmail() {
+    public String getEmail() {
         return email;
     }
 

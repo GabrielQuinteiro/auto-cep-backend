@@ -1,16 +1,15 @@
-package com.example.AutoCEP.model.common;
+package com.example.AutoCEP.entity.common;
 
-import model.common.Address;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class AddresTest {
+public class AddressVOTest {
 
     @Test
     public void shouldCreateValidAddress() throws Exception {
-        Address address = new Address("Rua Exemplo", "100", "Apt 2", "01001000",
+        AddressVO address = new AddressVO("Rua Exemplo", "100", "Apt 2", "01001000",
                                 "Centro" ,"São Paulo", "SP");
 
         assertEquals("Rua Exemplo", address.getStreetAddres());
@@ -22,20 +21,11 @@ public class AddresTest {
         assertEquals("SP", address.getState());
     }
 
-
-    @Test
-    public void shouldThrowExceptionForMissingState() {
-        assertThrows(Exception.class, () -> new Address(
-                "Rua X", "10", "Apt 2", "Bairro Y",
-                "Cidade Z", "", "12345678"));
-    }
-
     @Test
     public void shouldAcceptBlankComplement() throws Exception {
-        Address address = new Address("Rua Exemplo", "100", "", "01001000",
+        AddressVO address = new AddressVO("Rua Exemplo", "100", "", "01001000",
                 "Centro" ,"São Paulo", "SP");
 
         assertEquals("", address.getComplement());
     }
-
 }

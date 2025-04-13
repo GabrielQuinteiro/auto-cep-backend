@@ -1,15 +1,37 @@
-package com.example.AutoCEP.model.common;
+package com.example.AutoCEP.entity.common;
 
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Embeddable
 public class AddressVO {
+    @NotBlank
+    @NotNull
     private String streetAddres;
+
+    @NotBlank
+    @NotNull
     private String number;
+
     private String complement;
+
+    @NotBlank
+    @NotNull
+    @Pattern(regexp = "^\\d{8}$")
     private String cep;
+
+    @NotBlank
+    @NotNull
     private String neighborhood;
+
+    @NotBlank
+    @NotNull
     private String city;
+
+    @NotBlank
+    @NotNull
     private String state;
 
     public AddressVO() {

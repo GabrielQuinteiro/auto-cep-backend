@@ -1,20 +1,24 @@
-package com.example.AutoCEP.model.common;
+package com.example.AutoCEP.entity.common;
 
 import com.example.AutoCEP.exepction.cpf.CpfErrorCode;
 import com.example.AutoCEP.exepction.cpf.InvalidCpfExecption;
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 @Embeddable
 public class CpfVO {
 
-    @Pattern(regexp = "^(\\d{3}\\.?){3}-?\\d{2}$")
+    @NotNull
+    @NotBlank
+    @Pattern(regexp = "^(\\d{3}\\.?){3}-?\\d{2}$", message = "Invalid CPF format.")
     private String cpf;
 
     public CpfVO() {
     }
 
-    public CpfVO(String cpf) throws Exception {
+    public CpfVO(String cpf) throws InvalidCpfExecption {
         validate(cpf);
         this.cpf = normalize(cpf);
     }
@@ -57,8 +61,6 @@ public class CpfVO {
             throw new InvalidCpfExecption(CpfErrorCode.INVALID_VERF_DIGITS);
         }
     }
-
-
 
     public String getValue() {
         return cpf;
